@@ -1,5 +1,6 @@
 pyspark==3.5.1
 pandas
+pyarrow
 langchain
 langchain-community
 openai
