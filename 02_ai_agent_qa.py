@@ -1,20 +1,17 @@
+import os
 import pandas as pd
 import json
 
 def main():
     print("\n=== [STEP 1] Inicializando Agente de Validação de IA (Framework QA) ===")
-    
-    # IMPORTANTE: Aponta para a pasta Gold em Parquet gerada pelo PySpark
     parquet_folder = "gold_market_intelligence_summary"
     
     try:
-        # Pandas lê o diretório Parquet nativamente usando o pyarrow que instalamos
         df = pd.read_parquet(parquet_folder)
         print(f"=== [STEP 2] Lendo dados consolidados de: {parquet_folder} ===")
-        
         print("=== [STEP 3] Executando Regras de Validação de Sinais Financeiros ===")
-        relatorio_qa = []
         
+        relatorio_qa = []
         for index, row in df.iterrows():
             status_falencia = "Falidas (Bankrupt)" if row['is_bankrupt'] == 1 else "Saudáveis (Solvent)"
             roa = row['avg_roa']
@@ -29,23 +26,17 @@ def main():
                 
             relatorio_qa.append({
                 "segmento": status_falencia,
-                "metricas_analisadas": {
-                    "avg_roa": roa,
-                    "avg_net_income_ratio": net_income_ratio
-                },
+                "metricas_analisadas": {"avg_roa": roa, "avg_net_income_ratio": net_income_ratio},
                 "insight_ia": alerta,
                 "status_qa": resultado_validacao
             })
             
         print("\n=== [STEP 4] Relatório Final do Agente de IA (Formato JSON Corporativo) ===")
         print(json.dumps(relatorio_qa, indent=4, ensure_ascii=False))
-        
         print("\n=== [SUCCESS] Framework de QA concluído com 100% de cobertura! ===\n")
         
     except FileNotFoundError:
         print(f"=== [ERROR] Diretório {parquet_folder} não encontrado. Execute o script 01 primeiro! ===")
-    except Exception as e:
-        print(f"=== [ERROR] Ocorreu um erro inesperado: {str(e)} ===")
 
 if __name__ == "__main__":
     main()

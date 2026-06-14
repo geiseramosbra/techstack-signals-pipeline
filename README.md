@@ -4,7 +4,7 @@ Este projeto demonstra uma arquitetura ponta a ponta de Engenharia de Dados e In
 
 A solução utiliza **PySpark (Spark SQL)** local para processar grandes volumes de dados financeiros e um **Agente de IA** para executar validações heurísticas automatizadas de qualidade e governança (QA).
 
-## 🛠️ Arquitetura do Projeto
+##  Arquitetura do Projeto
 
 1. **Ingestão (Bronze):** Leitura de dados históricos estruturados de balanços corporativos (`company_data.csv`).
 2. **Processamento (Silver/Gold):** Pipeline ETL em PySpark para limpeza, renomeação de colunas críticas e agregação de indicadores financeiros (ROA, Net Income Growth, Net Income Ratio) agrupados por status de falência.
