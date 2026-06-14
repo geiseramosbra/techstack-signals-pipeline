@@ -27,7 +27,7 @@ I divided the data flow into clear steps to ensure clean organization and solid 
 
 ## Final Output Example (JSON Report)
 
-After running the AI validator, this is the structured report format generated to analyze the financial health of the target segments:
+After execution, this is the structured report format generated to analyze the financial health of the target segments:
 
 ```json
 [
