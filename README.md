@@ -1,30 +1,51 @@
-# TechStack Signals Pipeline 
+# TechStack Signals Pipeline: Spark and AI Risk Framework
 
-Este projeto demonstra uma arquitetura ponta a ponta de Engenharia de Dados e Inteligência Artificial para análise de risco de crédito e saúde financeira corporativa. 
+Este projeto simula uma esteira de dados corporativa e escalável para análise de risco de crédito empresarial utilizando a Arquitetura Medalhão (Bronze/Silver/Gold). O pipeline realiza a ingestão e higienização de dados brutos de mercado usando Apache Spark (PySpark), otimiza o armazenamento analítico no formato colunar Parquet e utiliza um Agente de IA para executar regras de validação e gerar relatórios executivos estruturados em formato JSON.
 
-A solução utiliza **PySpark (Spark SQL)** local para processar grandes volumes de dados financeiros e um **Agente de IA** para executar validações heurísticas automatizadas de qualidade e governança (QA).
+---
 
-##  Arquitetura do Projeto
+## Arquitetura do Pipeline de Dados
 
-1. **Ingestão (Bronze):** Leitura de dados históricos estruturados de balanços corporativos (`company_data.csv`).
-2. **Processamento (Silver/Gold):** Pipeline ETL em PySpark para limpeza, renomeação de colunas críticas e agregação de indicadores financeiros (ROA, Net Income Growth, Net Income Ratio) agrupados por status de falência.
-3. **Consumo de Dados:** Exportação dos dados tratados para um sumário executivo em CSV (`market_intelligence_summary.csv`).
-4. **Camada de IA (QA Layer):** Um Agente de IA consome o sumário, aplica regras de validação estatística em lote e gera um relatório auditável em formato JSON corporativo.
+O desenho deste projeto segue os padrões modernos de engenharia de Big Data para governança, performance e escalabilidade:
+1. **Camada Bronze (Dados Brutos):** Ingestão direta do dataset original (`company_data.csv`) contendo sinais macroeconômicos e registros financeiros históricos de empresas.
+2. **Camada Silver (Dados Limpos):** Processamento distribuído via PySpark para eliminar espaços vazios nos cabeçalhos das colunas, sanitizar tipos de dados e selecionar KPIs financeiros críticos, como ROA e margens de lucro líquido.
+3. **Camada Gold (Dados de Negócio):** Agregação estatística dos dados de mercado agrupados por segmentação de risco. O dataframe final é persistido localmente utilizando o formato colunar Parquet (`gold_market_intelligence_summary`), garantindo alta compressão de dados e velocidade ideal de leitura.
+4. **Camada de IA (Insights Analíticos):** Um framework de garantia de qualidade (QA) que consome os metadados em Parquet, avalia as métricas financeiras agregadas contra diretrizes de crédito automatizadas e gera insights formatados como JSON corporativo padrão.
 
-## Tecnologias Utilizadas
+---
 
-* **Python 3.12+**
-* **Apache Spark / PySpark 3.5+**
-* **Amazon Corretto OpenJDK 11** (Ambiente de execução Java estável)
-* **Pandas & Setuptools** (Conversão de DataFrames e compatibilidade de ambiente)
+## Tecnologias e Ferramentas
 
-## Como Executar o Projeto
+* **Linguagem Principal:** Python 3.11+ / 3.14
+* **Motor de Processamento de Big Data:** Apache Spark 3.5.1 (PySpark)
+* **Armazenamento de Alta Performance:** PyArrow / Parquet
+* **Processamento Analítico:** Pandas
+* **IA e Engenharia de Prompts:** LangChain / Framework de API da OpenAI (Arquitetura pronta para LLM)
 
-### 1. Pré-requisitos
-Certifique-se de ter o **Java 11 (JDK)** instalado e a variável de ambiente `JAVA_HOME` configurada no seu sistema.
+---
 
-### 2. Instalar Dependências
-Ative seu ambiente virtual e instale os pacotes necessários:
-```bash
-.\venv\Scripts\activate
-pip install -r requirements.txt
+## Estrutura de Saída do Agente de IA (Relatório JSON Corporativo)
+
+Após a execução bem-sucedida do Framework de QA, o Agente de IA avalia o dataset e gera a seguinte análise de crédito estruturada:
+
+```json
+[
+    {
+        "segmento": "Falidas (Bankrupt)",
+        "metricas_analisadas": {
+            "avg_roa": 0.4185,
+            "avg_net_income_ratio": 0.7381
+        },
+        "insight_ia": "CRÍTICO: Empresas Falidas (Bankrupt) apresentam ROA médio preocupante de 0.4185.",
+        "status_qa": "REJEITADO - Risco de Crédito Elevado"
+    },
+    {
+        "segmento": "Saudáveis (Solvent)",
+        "metricas_analisadas": {
+            "avg_roa": 0.5081,
+            "avg_net_income_ratio": 0.8101
+        },
+        "insight_ia": "NORMAL: Métricas para empresas Saudáveis (Solvent) operando dentro dos limites estatísticos.",
+        "status_qa": "APROVADO - Padrão de Estabilidade Mapeado"
+    }
+]
