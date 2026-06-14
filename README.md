@@ -1,32 +1,33 @@
 # TechStack Signals Pipeline: Spark and AI Risk Framework
 
-Este projeto simula uma esteira de dados corporativa e escalável para análise de risco de crédito empresarial utilizando a Arquitetura Medalhão (Bronze/Silver/Gold). O pipeline realiza a ingestão e higienização de dados brutos de mercado usando Apache Spark (PySpark), otimiza o armazenamento analítico no formato colunar Parquet e utiliza um Agente de IA para executar regras de validação e gerar relatórios executivos estruturados em formato JSON.
+Criei este projeto para desenvolver uma esteira de dados completa voltada para análise de risco de crédito empresarial. A ideia foi aplicar o conceito prático da Arquitetura Medalhão (Bronze, Silver e Gold) para organizar o fluxo de dados: usei o Apache Spark (PySpark) para limpar e consolidar o volume de dados brutos, salvei o resultado final no formato otimizado Parquet e conectei um Agente de IA para validar os indicadores financeiros automaticamente, gerando um relatório pronto em JSON.
 
 ---
 
-## Arquitetura do Pipeline de Dados
+## Como o Pipeline Foi Estruturado
 
-O desenho deste projeto segue os padrões modernos de engenharia de Big Data para governança, performance e escalabilidade:
-1. **Camada Bronze (Dados Brutos):** Ingestão direta do dataset original (`company_data.csv`) contendo sinais macroeconômicos e registros financeiros históricos de empresas.
-2. **Camada Silver (Dados Limpos):** Processamento distribuído via PySpark para eliminar espaços vazios nos cabeçalhos das colunas, sanitizar tipos de dados e selecionar KPIs financeiros críticos, como ROA e margens de lucro líquido.
-3. **Camada Gold (Dados de Negócio):** Agregação estatística dos dados de mercado agrupados por segmentação de risco. O dataframe final é persistido localmente utilizando o formato colunar Parquet (`gold_market_intelligence_summary`), garantindo alta compressão de dados e velocidade ideal de leitura.
-4. **Camada de IA (Insights Analíticos):** Um framework de garantia de qualidade (QA) que consome os metadados em Parquet, avalia as métricas financeiras agregadas contra diretrizes de crédito automatizadas e gera insights formatados como JSON corporativo padrão.
+Dividi o fluxo de dados em etapas claras para garantir organização e boa performance no processamento:
 
----
-
-## Tecnologias e Ferramentas
-
-* **Linguagem Principal:** Python 3.11+ / 3.14
-* **Motor de Processamento de Big Data:** Apache Spark 3.5.1 (PySpark)
-* **Armazenamento de Alta Performance:** PyArrow / Parquet
-* **Processamento Analítico:** Pandas
-* **IA e Engenharia de Prompts:** LangChain / Framework de API da OpenAI (Arquitetura pronta para LLM)
+1. **Camada Bronze:** O ponto de partida do projeto, onde leio o arquivo bruto original (`company_data.csv`) que contém o histórico financeiro e os sinais de mercado das empresas.
+2. **Camada Silver:** Aqui utilizei o PySpark para fazer a limpeza pesada. Ajustei os nomes das colunas (que vieram cheias de espaços em branco no arquivo original), tratei os tipos de dados e filtrei apenas as métricas essenciais para a análise, como o ROA e a taxa de lucro líquido.
+3. **Camada Gold:** Com os dados limpos, fiz as agregações estatísticas agrupando as empresas pelo status de falência. Em vez de salvar em CSV comum, exportei o resultado na pasta `gold_market_intelligence_summary` usando formato Parquet, que é muito mais rápido para leitura e ocupa menos espaço.
+4. **Camada de IA:** Desenvolvi um script de validação que funciona como uma auditoria. Ele lê os arquivos Parquet da camada Gold, aplica regras de negócios financeiras e gera um relatório final consolidado.
 
 ---
 
-## Estrutura de Saída do Agente de IA (Relatório JSON Corporativo)
+## Tecnologias que Utilizei
 
-Após a execução bem-sucedida do Framework de QA, o Agente de IA avalia o dataset e gera a seguinte análise de crédito estruturada:
+* **Linguagem:** Python (versões 3.11 / 3.14)
+* **Processamento de Big Data:** Apache Spark 3.5.1 (PySpark)
+* **Armazenamento e Performance:** PyArrow e Parquet
+* **Manipulação de Dados:** Pandas
+* **Estrutura de IA:** LangChain (Arquitetura integrada e pronta para chamadas de modelos LLM)
+
+---
+
+## Exemplo de Resultado Final (Relatório JSON)
+
+Após rodar este é o formato do relatório estruturado gerado com a análise de saúde financeira das empresas:
 
 ```json
 [
