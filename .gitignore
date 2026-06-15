@@ -1,0 +1,9 @@
+# Ambientes virtuais
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Arquivos de dados e outputs locais (Não devem ir para o GitHub)
+company_data.csv
+gold_market_intelligence_summary/
